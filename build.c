@@ -40,12 +40,26 @@ static int compile(char * name) {
   return 0;
 }
 
+static int appinfo_example() {
+  { char * args[] = {
+      "clang", "-Wall", "-g",
+      "-framework", "AppKit",
+      "-o", "app-info", "app-info.m", 0 };
+    if (run(args)) return 1; }
+
+  { char * args[] = { "cp", "app-info", "app-info.app/Contents/MacOS/", 0 };
+    if (run(args)) return 1; }
+
+  return 0;
+}
+
 int main(int argc, char ** argv) {
   if (argc != 1) return (usage(), 1);
 
-  if (compile("app-info"    )) return 1;
   if (compile("build"       )) return 1;
   if (compile("objc-runtime")) return 1;
+
+  if (appinfo_example()) return 1;
 
   return 0;
 }
