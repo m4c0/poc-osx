@@ -1,4 +1,5 @@
 #import <AppKit/AppKit.h>
+#import <CoreFoundation/CoreFoundation.h>
 
 @interface POCAppDelegate : NSObject<NSApplicationDelegate>
 @end
@@ -10,6 +11,11 @@
 @end
 
 static void run() {
+  NSDictionary * info = [[NSBundle mainBundle] infoDictionary];
+  NSString * name = info[@"CFBundleDisplayName"];
+  if (!name) name = info[@"CFBundleName"];
+  if (!name) name = @"App";
+
   NSWindow * w = [NSWindow new];
   w.styleMask = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskResizable;
 
@@ -20,14 +26,17 @@ static void run() {
   [w makeKeyAndOrderFront:w];
 
   // Apple menu
+  NSMenu * menu = [NSMenu new];
+  [menu       addItem:[[NSMenuItem alloc]
+        initWithTitle:[@"Quit " stringByAppendingString:name]
+               action:@selector(terminate:)
+        keyEquivalent:@"q"]];
+
+  NSMenuItem * item = [NSMenuItem new];
+  item.submenu = menu;
+
   NSMenu * bar = [NSMenu new];
-  NSMenuItem * app_item = [NSMenuItem new];
-  NSMenu * app_menu = [NSMenu new];
-  [app_menu addItem:[[NSMenuItem alloc] initWithTitle:@"Quit le app"
-                                               action:@selector(terminate:)
-                                        keyEquivalent:@"q"]];
-  app_item.submenu = app_menu;
-  [bar addItem:app_item];
+  [bar addItem:item];
 
   NSApplication * a = [NSApplication sharedApplication];
   a.delegate = [POCAppDelegate new];
