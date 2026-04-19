@@ -37,13 +37,13 @@ static int compile(char * name) {
     "-o", name, src, 0 };
   if (run(args)) return 1;
 
-  fprintf(stderr, "%s\n", src);
   return 0;
 }
 
 int main(int argc, char ** argv) {
   if (argc != 1) return (usage(), 1);
 
+  if (compile("app-info"    )) return 1;
   if (compile("build"       )) return 1;
   if (compile("objc-runtime")) return 1;
 
