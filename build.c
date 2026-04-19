@@ -47,5 +47,10 @@ int main(int argc, char ** argv) {
   if (cc("app-info.m", "app-info")) return 1;
   if (cc("app-info.m", "app-info.app/Contents/MacOS/app-info")) return 1;
 
+  mkdir("standalone.app", 0777);
+  mkdir("standalone.app/Contents", 0777);
+  mkdir("standalone.app/Contents/MacOS", 0777);
+  if (cc("standalone.m", "standalone.app/Contents/MacOS/standalone")) return 1;
+
   return 0;
 }
