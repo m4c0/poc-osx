@@ -52,5 +52,7 @@ int main(int argc, char ** argv) {
   mkdir("standalone.app/Contents/MacOS", 0777);
   if (cc("standalone.m", "standalone.app/Contents/MacOS/standalone")) return 1;
 
+  if (cc("scene.m", "scene")) return 1;
+
   return 0;
 }
