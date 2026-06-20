@@ -54,5 +54,8 @@ int main(int argc, char ** argv) {
 
   if (cc("scene.m", "scene")) return 1;
 
+  { char * args[] = { "clang", "resource.c", "-o", "resource", "-Wl,-sectcreate,myseg,mysect,resource.c", 0 };
+    if (run(args)) return 1; }
+
   return 0;
 }
